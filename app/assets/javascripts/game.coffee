@@ -27,13 +27,12 @@ class window.Game
     @invaders = [] 
     for x in [0...invaderCount]
       @invaders.push(new Invader(x * (invaderWidth + @invaderOffset()) + span, 0.10 * height))
+    for invader in @invaders
+      @stage.add(invader)
     
     @guns = []
     for i in [0...invaderCount]
       @guns.push(undefined)
-      
-    for invader in @invaders
-      @stage.add(invader)
       
     @bindEvents(@stage)
     @stage.update()
