@@ -15,13 +15,13 @@ class window.Gun
     @id = undefined
     @view  = @createView(@x, @y)
     @alive = true
-    @power = 5
+    @power = 25
   
-  update: (e) =>
+  update: (event) =>
     @y += speed
     if @y <= 0
       @alive = false
     if !@alive  
-      e.remove() 
+      event.remove() 
       @view.visible = false
     @view.y = @y

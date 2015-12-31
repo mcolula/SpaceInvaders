@@ -11,7 +11,7 @@ class window.Bunker
   
   constructor: (@x, @y) ->
     @id = undefined
-    @life  = 5
+    @life  = 200
     @alive = true
     @view  = @createView(@x, @y)  
     
@@ -28,9 +28,9 @@ class window.Bunker
   inside: (x, y) =>
     x >= @x && x <= @x + w && y >= @y && y <= @y + h
     
-  update: (e) =>
+  update: (event) =>
     if @life <= 0
       @alive = false
     if !@alive  
-      e.remove()
+      event.remove()
       @view.visible = false

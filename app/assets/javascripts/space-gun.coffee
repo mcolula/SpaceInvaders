@@ -16,14 +16,14 @@ class window.SpaceGun
     @id = undefined
     @alive = true
     @view  = @createView(@x, @y)
-    @power = 1
+    @power = 25
   
-  update: (e) =>
+  update: (event) =>
     @y += speed
     if @y >= limit
       @alive = false
     if !@alive  
-      e.remove() 
+      event.remove() 
       @view.visible = false
     @view.y = @y
 

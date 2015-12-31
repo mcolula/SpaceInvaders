@@ -12,19 +12,19 @@ class window.Invader
 
   constructor: (@x, @y) ->
     @id = undefined
-    @lives = 1
-    @life  = 5
+    @lives = 0
+    @life  = 100
     @alive = true
     @view  = @createView(@x, @y)
     
-  update: (e) =>
+  update: (event) =>
     if @life <= 0 && @lives >= 1
       @lives -= 1
       @life = 5
     if @life <= 0 && @lives <  1
       @alive = false
     if !@alive  
-      e.remove()
+      event.remove()
       @view.visible = false
   
   shooting: => 

@@ -14,7 +14,7 @@ class window.Player
 
   constructor: (@name, @x, @y) ->
     @id = undefined
-    @lives = 3
+    @lives = 0
     @life  = 100
     @alive = true
     @view  = @createView(@x, @y)
@@ -25,6 +25,8 @@ class window.Player
       pressingSpeed : false
       
   onKeyDown: (event) =>
+    if !@alive  
+      event.remove()
     if event.keyCode == 37  # L
       @controls.pressingL = true
       @controls.pressingR = false
@@ -35,8 +37,10 @@ class window.Player
       @controls.pressingShoot = true
     if event.keyCode == 16  # Shift
       @controls.pressingSpeed = true
-
+      
   onKeyUp: (event) =>
+    if !@alive  
+      event.remove()
     if event.keyCode == 37  # L
       @controls.pressingL = false
     if event.keyCode == 39  # R
@@ -45,8 +49,8 @@ class window.Player
       @controls.pressingShoot = false
     if event.keyCode == 16  # Shift
       @controls.pressingSpeed = false
-
-  update: (e) =>
+      
+  update: (event) =>
     if @life <= 0 && @lives >= 1
       @lives -= 1
       @life = 100
@@ -64,6 +68,9 @@ class window.Player
       speed = 8
     else
       speed = 3
+    if !@alive  
+      event.remove()
+      @view.visible = false
     @view.x = @x
     @view.y = @y
 
