@@ -1,49 +1,82 @@
-@stage; 
-@player;
-@bunker;
-@objects; 
-@bullets;
-@invader;
+class window.Game
+  
+  width   = 1000 
+  height  = 600
+  bunkerCount  = 6
+  invaderCount = 16
+  invadersPerRow =  4
+  
+  
+  #Other constants
+  bunkerWidth  = 80
+  invaderWidth = 20
+  span = 40
+  
+  constructor: ->
+    @stage  = new Stage("canvas")
+    
+    @player  = new Player("mcolula", width / 2, height)
+    @stage.add(@player)
+    
+    @bunkers = [] 
+    for x in [0...bunkerCount]
+      @bunkers.push(new Bunker(x * (bunkerWidth + @bunkerOffset()), 0.65 * height))
+    for bunker in @bunkers
+      @stage.add(bunker)
+      
+    @invaders = [] 
+    for x in [0...invaderCount]
+      @invaders.push(new Invader(x * (invaderWidth + @invaderOffset()) + span, 0.10 * height))
+    for invader in @invaders
+      @stage.add(invader)
+      
+    @bindEvents(@stage)
+    @stage.update()
+      
+  
+  bunkerOffset: () =>
+    freeSpace  = width - bunkerWidth * bunkerCount
+    freeSpace /= bunkerCount - 1
+    freeSpace  
+  
+  invaderOffset: () =>
+    freeSpace  = width - invaderWidth * invaderCount - 2 * span
+    freeSpace /= invaderCount - 1
+    freeSpace
+  
+  
+  bindEvents: (stage) =>
+    document.onkeydown = @player.onKeyDown
+    document.onkeyup   = @player.onKeyUp
+    createjs.Ticker.on 'tick', stage.update
+    createjs.Ticker.on 'tick', @run
+    
+  
+  mainGunBehavior: () =>
+    if @gun? && !@gun.alive
+      @stage.remove(@gun)
+      @gun = undefined    
+    if @player.shooting() && !@gun?     
+      @gun = @player.shoot()
+      @stage.add(@gun)
+  
+  run: () => 
+    
+    @mainGunBehavior()
 
-@init = () -> 
-  @stage  = new createjs.Stage("canvas")
-  createjs.Ticker.setFPS 60
-  @player  = new Player("mcolula", 500, 600)
-  @bunker  = new Bunker(500, 300)
-  @invader = new Invader(100, 0)
-  @stage.addChild(player.view)
-  @stage.addChild(bunker.view)
-  @stage.addChild(invader.view)
-  document.onkeydown = player.onkeyDown
-  document.onkeyup   = player.onKeyUp
-  createjs.Ticker.on 'tick', @update
-  @objects = [player, bunker]
-  @bullets = []
-  
-@update = () ->
-  
-  if invader.shooting()
-    bullet = invader.shoot()
-    stage.addChild(bullet.view)
-    bullets.push(bullet)
-  
-  for object in objects
-    object.update()
-  
-  for bullet in bullets 
-    bullet.update()
-    if bullet.alive && objects[1].gotShot(bullet)
-      bullet.alive = false
-    if bullet.alive && objects[0].gotShot(bullet)
-      bullet.alive = false
-    if bullet.alive && invader.gotShot(bullet)
-      bullet.alive = false
-   
-  if player.shooting()
-    bullet = player.shoot()
-    stage.addChild(bullet.view)
-    bullets.push(bullet)
+    for invader in @invaders
+      if invader.alive && invader.shooting()
+        @stage.add(invader.shoot())
     
-    
-  stage.update()
-    
+    for bunker in @bunkers
+      if @gun? && bunker.alive && bunker.gotShot(@gun)
+        @gun.alive = false
+        
+    for invader in @invaders
+      if @gun? && invader.alive && invader.gotShot(@gun)
+        @gun.alive = false
+        
+        
+        
+@init = () ->
+  game = new Game()

@@ -1,9 +1,9 @@
 class window.Player
   
   speed  = 3
+  radius = 15
   limit  = 1000
   color  = "#00BFFF"
-  radius = 15
   
   createView: (x, y) =>
     circle = new createjs.Shape()
@@ -13,6 +13,7 @@ class window.Player
     circle
 
   constructor: (@name, @x, @y) ->
+    @id = undefined
     @lives = 3
     @life  = 100
     @alive = true
@@ -21,8 +22,9 @@ class window.Player
       pressingL     : false
       pressingR     : false
       pressingShoot : false
+      pressingSpeed : false
       
-  onkeyDown: (event) =>
+  onKeyDown: (event) =>
     if event.keyCode == 37  # L
       @controls.pressingL = true
       @controls.pressingR = false
@@ -31,6 +33,8 @@ class window.Player
       @controls.pressingR = true
     if event.keyCode == 32  # Spacebar
       @controls.pressingShoot = true
+    if event.keyCode == 16  # Shift
+      @controls.pressingSpeed = true
 
   onKeyUp: (event) =>
     if event.keyCode == 37  # L
@@ -39,9 +43,10 @@ class window.Player
       @controls.pressingR = false
     if event.keyCode == 32  # Spacebar
       @controls.pressingShoot = false
+    if event.keyCode == 16  # Shift
+      @controls.pressingSpeed = false
 
-
-  update: =>
+  update: (e) =>
     if @life <= 0 && @lives >= 1
       @lives -= 1
       @life = 100
@@ -55,6 +60,10 @@ class window.Player
       @x -= speed
       if @x < 0
         @x = 0
+    if @controls.pressingSpeed
+      speed = 8
+    else
+      speed = 3
     @view.x = @x
     @view.y = @y
 
@@ -62,8 +71,8 @@ class window.Player
     @controls.pressingShoot
     
   shoot: =>
-    new Gun(@x, @y - radius, false)
-    
+    new Gun(@name, @x, @y - radius, false)
+
   gotShot: (bullet) =>
     if @collision(bullet) && bullet.enemy
       @life -= bullet.power  

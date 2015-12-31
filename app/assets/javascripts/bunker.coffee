@@ -1,6 +1,6 @@
 class window.Bunker
   
-  color = "#0FDDAF"
+  color = "#D3D3D3"
   h = 20
   w = 80
   
@@ -10,7 +10,8 @@ class window.Bunker
     rect
   
   constructor: (@x, @y) ->
-    @life  = 200
+    @id = undefined
+    @life  = 5
     @alive = true
     @view  = @createView(@x, @y)  
     
@@ -27,7 +28,9 @@ class window.Bunker
   inside: (x, y) =>
     x >= @x && x <= @x + w && y >= @y && y <= @y + h
     
-  update: =>
+  update: (e) =>
     if @life <= 0
       @alive = false
-    
+    if !@alive  
+      e.remove()
+      @view.visible = false

@@ -2,7 +2,7 @@ class window.SpaceGun
   
   color  = "#FFFFAA"
   limit  = 600
-  speed  = 5
+  speed  = 8
   radius = 3
   
   createView: (x, y) =>
@@ -13,13 +13,17 @@ class window.SpaceGun
     circle
   
   constructor: (@x, @y, @enemy) ->
+    @id = undefined
     @alive = true
     @view  = @createView(@x, @y)
     @power = 1
   
-  update: =>
+  update: (e) =>
     @y += speed
     if @y >= limit
       @alive = false
+    if !@alive  
+      e.remove() 
+      @view.visible = false
     @view.y = @y
 

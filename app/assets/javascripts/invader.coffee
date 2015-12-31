@@ -11,17 +11,21 @@ class window.Invader
     rect
 
   constructor: (@x, @y) ->
+    @id = undefined
     @lives = 1
-    @life  = 100
+    @life  = 5
     @alive = true
     @view  = @createView(@x, @y)
-      
-  update: =>
+    
+  update: (e) =>
     if @life <= 0 && @lives >= 1
       @lives -= 1
-      @life = 100
+      @life = 5
     if @life <= 0 && @lives <  1
       @alive = false
+    if !@alive  
+      e.remove()
+      @view.visible = false
   
   shooting: => 
     Math.random() <= shootProbability

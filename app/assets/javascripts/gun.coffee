@@ -1,7 +1,7 @@
 class window.Gun
   
   color  = "#FFFFFF"
-  speed  = -5
+  speed  = -10
   radius =  5
   
   createView: (x, y) =>
@@ -11,14 +11,17 @@ class window.Gun
     circle.y = y
     circle
   
-  constructor: (@x, @y, @enemy) ->
-    @alive = true
+  constructor: (@name, @x, @y, @enemy) ->
+    @id = undefined
     @view  = @createView(@x, @y)
-    @power = 1
+    @alive = true
+    @power = 5
   
-  update: =>
+  update: (e) =>
     @y += speed
     if @y <= 0
       @alive = false
+    if !@alive  
+      e.remove() 
+      @view.visible = false
     @view.y = @y
-
