@@ -12,7 +12,6 @@ class window.Gun
     circle
   
   constructor: (@name, @x, @y, @enemy) ->
-    @id = undefined
     @view  = @createView(@x, @y)
     @alive = true
     @power = 25

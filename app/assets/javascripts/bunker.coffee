@@ -10,7 +10,6 @@ class window.Bunker
     rect
   
   constructor: (@x, @y) ->
-    @id = undefined
     @life  = 200
     @alive = true
     @view  = @createView(@x, @y)  

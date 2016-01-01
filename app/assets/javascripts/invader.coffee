@@ -1,7 +1,7 @@
 class window.Invader
   
   shootProbability = 0.01
-  color  = "#DD0A0A"
+  color = "#DD0A0A"
   h = 20
   w = 20
   
@@ -11,7 +11,6 @@ class window.Invader
     rect
 
   constructor: (@x, @y) ->
-    @id = undefined
     @lives = 0
     @life  = 100
     @alive = true
@@ -27,9 +26,12 @@ class window.Invader
       event.remove()
       @view.visible = false
   
-  shooting: => 
-    Math.random() <= shootProbability
-  
+  shooting: =>
+    if @alive
+      Math.random() <= shootProbability
+    else
+      false
+    
   shoot: =>
     new SpaceGun(@x + w / 2, @y + h, true)
     

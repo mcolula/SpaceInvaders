@@ -13,7 +13,6 @@ class window.SpaceGun
     circle
   
   constructor: (@x, @y, @enemy) ->
-    @id = undefined
     @alive = true
     @view  = @createView(@x, @y)
     @power = 25
