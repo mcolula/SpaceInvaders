@@ -3,9 +3,8 @@ class window.Game
   width  = 1000 
   height  = 600
   bunkerCount  = 6
-  invaderCount = 16
+  invaderCount = 24
   invadersPerRow =  4
-  
   
   #Other constants
   bunkerWidth  = 80
@@ -26,14 +25,16 @@ class window.Game
       
     @invaders = [] 
     for x in [0...invaderCount]
-      @invaders.push(new Invader(x * (invaderWidth + @invaderOffset()) + span, 0.10 * height))
+      @invaders.push(new Invader(x * (invaderWidth + @invaderOffset()) + span, 0.20 * height))
     for invader in @invaders
       @stage.add(invader)
     
     @guns = []
     for i in [0...invaderCount]
       @guns.push(undefined)
-      
+    
+    # Create labels
+    
     @bindEvents(@stage)
     @stage.update()
       
@@ -94,7 +95,6 @@ class window.Game
     
     for i in [0...invaderCount]
       if @guns[i]? && @player.alive && @player.gotShot(@guns[i])
-        alert("got hit")
         @guns[i].alive = false
             
   run: () => 

@@ -1,7 +1,7 @@
 class window.Player
   
   speed  = 3
-  radius = 15
+  radius = 25
   limit  = 1000
   color  = "#00BFFF"
   

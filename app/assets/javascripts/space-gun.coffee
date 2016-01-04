@@ -2,7 +2,7 @@ class window.SpaceGun
   
   color  = "#FFFFAA"
   limit  = 600
-  speed  = 8
+  speed  = 15
   radius = 3
   
   createView: (x, y) =>
