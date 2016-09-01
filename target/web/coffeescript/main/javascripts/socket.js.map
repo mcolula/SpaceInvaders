@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "socket.js",
+  "sourceRoot": "",
+  "sources": [
+    "socket.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;AAAA;AAAA"
+}
